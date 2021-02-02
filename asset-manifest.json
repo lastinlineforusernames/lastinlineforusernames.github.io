@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/FCC/quote/static/css/main.26418eee.chunk.css",
+    "main.js": "/FCC/quote/static/js/main.8c73c218.chunk.js",
+    "main.js.map": "/FCC/quote/static/js/main.8c73c218.chunk.js.map",
+    "runtime-main.js": "/FCC/quote/static/js/runtime-main.9b3e0fa9.js",
+    "runtime-main.js.map": "/FCC/quote/static/js/runtime-main.9b3e0fa9.js.map",
+    "static/js/2.8925a5e9.chunk.js": "/FCC/quote/static/js/2.8925a5e9.chunk.js",
+    "static/js/2.8925a5e9.chunk.js.map": "/FCC/quote/static/js/2.8925a5e9.chunk.js.map",
+    "static/js/3.86f14626.chunk.js": "/FCC/quote/static/js/3.86f14626.chunk.js",
+    "static/js/3.86f14626.chunk.js.map": "/FCC/quote/static/js/3.86f14626.chunk.js.map",
+    "index.html": "/FCC/quote/index.html",
+    "static/css/main.26418eee.chunk.css.map": "/FCC/quote/static/css/main.26418eee.chunk.css.map",
+    "static/js/2.8925a5e9.chunk.js.LICENSE.txt": "/FCC/quote/static/js/2.8925a5e9.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9b3e0fa9.js",
+    "static/js/2.8925a5e9.chunk.js",
+    "static/css/main.26418eee.chunk.css",
+    "static/js/main.8c73c218.chunk.js"
+  ]
+}
