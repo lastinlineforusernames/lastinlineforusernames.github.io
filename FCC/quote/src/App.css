@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,300&display=swap');
+
+.App {
+  text-align: center;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #191b20;
+}
+
+#quote-box {
+  background-color: #b68bb9;
+  color:  #191b20;
+  /* border: #191b20 3px solid; */
+  position: relative;
+  border-radius: 10px;
+  width: 500px;
+  padding: 40px;
+}
+
+#text {
+  font-size: x-large;
+  font-family: 'Poppins', sans-serif;
+  text-align: justify;
+}
+
+#author {
+  font-size: medium;
+  font-family: 'Poppins', sans-serif;
+  text-align: right;
+}
+
+#button-wrapper {
+  display:flex;
+  columns: 3;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+#tweet-quote {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #191b20;
+  color: #b68bb9;
+  text-decoration: none;
+  height: 24px;
+}
+
+#new-quote {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #191b20;
+  color: #b68bb9;
+  /* background: none!important; */
+  border: none;
+  padding: 0!important;
+  height: 24px;
+  cursor: pointer;
+  outline: none;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello. I am a Survey</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+        <br>
+        <h1 id="title">This is the Survey Title</h1>
+        <p id="description">Moose bites can be very nasty. Please enjoy this survey written by a moose.</p>
+        <form action="" id="survey-form">
+            <label for="name" id="name-label">What is your Name: </label><input type="text" id="name" placeholder="King Arthur, son of Uther" required><br>
+            <label for="email" id="email-label">What is your Email: </label><input type="email" id="email" placeholder="arthur@camelot.org" required><br>
+            <label for="number" id="number-label">What is the Airspeed Velocity of an Unladen Swallow (mph): </label><input type="number" name="number" id="number" placeholder="31" min="0" max="100" required><br>
+            <label for="dropdown-list">What shall be the number of the counting: </label>
+            <select name="dropdown-list" id="dropdown">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+            </select><br>
+            <label for="checklist">What is your Quest: </label>
+            <label for="radio1"><input type="radio" name="checklist" id="radio1" value="Holy Grail"> To seek the Holy Grail</label>
+            <label for="radio2"><input type="radio" name="checklist" id="radio2" value="Shrubbery"> To find a shrubbery</label><br>
+            <label for="checkboxes">What is your favorite color: </label>
+            <label for="check1"><input type="checkbox" name="checkboxes" id="check1" value="Blue"> Blue</label>
+            <label for="check2"><input type="checkbox" name="checkboxes" id="check2" value="Yellow"> Yellow</label><br>
+            <label for="textbox">Please describe in essay form the merits of acquiring supreme executive power through sword distribution by women  lying in ponds: </label>
+            <textarea name="comments" id="textbox" cols="30" rows="10"></textarea><br>
+            <button type="submit" id="submit">Submit</button>
+        </form>
+        <br>
+    </div>  
+</body>
+</html>
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>

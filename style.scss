@@ -1,0 +1,57 @@
+$textColor: white;
+$linkColor: black;
+$bgColor: darkgray;
+$divColor: gray;
+$RWDWidth: 900px;
+
+body {
+    background-color: $bgColor;
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+@media only screen and (min-width: $RWDWidth) {
+    .mobile-view {
+        display: none;
+    }
+}
+.mobile-view th {
+    transform: rotate(-90deg);
+}
+@media only screen and (max-width: $RWDWidth) {
+    .desktop-view {
+        display: none;
+    }
+}
+#music-table {
+    background-color: $divColor;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    font-size: large;
+    th, td {
+        text-align: center;
+        padding: 0.5%;
+    }
+}
+h3, h4 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+h2 {
+    @extend h3;
+    color: $textColor;
+}    
+a {
+    color: $linkColor;
+}
+
+a:link, a:hover {
+    @extend a;
+    font-weight: bold;
+}
+
+#code-png {
+    align-items: flex-end;
+}
