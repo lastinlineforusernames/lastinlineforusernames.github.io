@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "http://lastinlineforusernames.github.io/FCC/quote/public/static/css/main.26418eee.chunk.css",
+    "main.js": "http://lastinlineforusernames.github.io/FCC/quote/public/static/js/main.96639d8e.chunk.js",
+    "main.js.map": "http://lastinlineforusernames.github.io/FCC/quote/public/static/js/main.96639d8e.chunk.js.map",
+    "runtime-main.js": "http://lastinlineforusernames.github.io/FCC/quote/public/static/js/runtime-main.e3978735.js",
+    "runtime-main.js.map": "http://lastinlineforusernames.github.io/FCC/quote/public/static/js/runtime-main.e3978735.js.map",
+    "static/js/2.8925a5e9.chunk.js": "http://lastinlineforusernames.github.io/FCC/quote/public/static/js/2.8925a5e9.chunk.js",
+    "static/js/2.8925a5e9.chunk.js.map": "http://lastinlineforusernames.github.io/FCC/quote/public/static/js/2.8925a5e9.chunk.js.map",
+    "static/js/3.86f14626.chunk.js": "http://lastinlineforusernames.github.io/FCC/quote/public/static/js/3.86f14626.chunk.js",
+    "static/js/3.86f14626.chunk.js.map": "http://lastinlineforusernames.github.io/FCC/quote/public/static/js/3.86f14626.chunk.js.map",
+    "index.html": "http://lastinlineforusernames.github.io/FCC/quote/public/index.html",
+    "static/css/main.26418eee.chunk.css.map": "http://lastinlineforusernames.github.io/FCC/quote/public/static/css/main.26418eee.chunk.css.map",
+    "static/js/2.8925a5e9.chunk.js.LICENSE.txt": "http://lastinlineforusernames.github.io/FCC/quote/public/static/js/2.8925a5e9.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e3978735.js",
+    "static/js/2.8925a5e9.chunk.js",
+    "static/css/main.26418eee.chunk.css",
+    "static/js/main.96639d8e.chunk.js"
+  ]
+}
