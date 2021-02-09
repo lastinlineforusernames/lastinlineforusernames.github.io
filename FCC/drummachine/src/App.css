@@ -1,6 +1,10 @@
 .App {
   text-align: center;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+body {
+  background-color: #a8a8a8;
 }
 
 .drum-machine {
@@ -12,11 +16,18 @@
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas:
       "pads pads pads title"
-      "pads pads pads display"
-      "pads pads pads .";
+      "pads pads pads kat"
+      "pads pads pads display";
   border: 5px #574730 solid;
   background-color: #b8a66c;
   border-radius: 10px;
+}
+
+.kat > img {
+  border-radius: 50%;
+  max-width: 120px;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .padwrapper {
@@ -30,6 +41,12 @@
 .title {
   grid-area: title;
   margin: 10px;
+  font-size: xx-large;
+  font-variant: small-caps;
+  font-weight: bolder;
+  display: grid;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .display {

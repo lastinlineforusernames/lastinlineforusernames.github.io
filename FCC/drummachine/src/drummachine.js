@@ -3,36 +3,36 @@ import Drumpad from './drumpad'
 
 export const audioFiles = [{
         id: 'Q',
-        name: 'drumsQ',
-        url: './audio/808-clap-01.wav'
+        name: 'Hi Tom',
+        url: './audio/808-tom-01.wav'
     }, {
         id: 'W',
-        name: 'drumsW',
-        url: './audio/808-clap-01.wav'
+        name: 'Lo Tom',
+        url: './audio/808-tom-02.wav'
     }, {
         id: 'E',
-        name: 'drumsE',
-        url: './audio/808-clap-01.wav'
+        name: 'Crash',
+        url: './audio/808-cymbal-01.wav'
     }, {
         id: 'A',
-        name: 'drumsA',
-        url: './audio/808-clap-01.wav'
+        name: 'Closed Hat',
+        url: './audio/808-hat-01.wav'
     }, {
         id: 'S',
-        name: 'drumsS',
-        url: './audio/808-clap-01.wav'
+        name: 'Open Hat',
+        url: './audio/808-hat-05.wav'
     }, {
         id: 'D',
-        name: 'drumsD',
-        url: '/audio/808-clap-01.wav'
+        name: 'Clave',
+        url: '/audio/808-clave-01.wav'
     }, {
         id: 'Z',
         name: 'Kick',
-        url: '/audio/808-clap-01.wav'
+        url: '/audio/808-kick-30.wav'
     }, {
         id: 'X',
         name: 'Snare',
-        url: '/audio/808-clap-01.wav'
+        url: '/audio/808-snare-01.wav'
     }, {
         id: 'C',
         name: 'Clap',
@@ -57,14 +57,9 @@ class Drummachine extends React.Component {
     handleKeydown(e) {
         if (this.state.padArray.includes(e.code.charAt(3))) {
             this.setState({
-                display: e.code
-            })
-        } else {
-            this.setState({
-                display: ''
-            })
-        }
-        console.log(e.code.charAt(3))
+                display: audioFiles.filter(a => audioFiles.indexOf(a.id) === e.code.charAt(3)).name
+            });
+        };
     }
     render() {
         const drumPads = this.state.padArray.map(element => {
@@ -78,7 +73,7 @@ class Drummachine extends React.Component {
                 <div className="padwrapper" id="padWrapper">
                     {drumPads}
                 </div>
-                <div className="title" id="title">drumKAT</div>
+                <div className="title" id="title">KATdrum</div>
                 <div className="display" id="display">{this.state.display}</div>
             </div>
         )
