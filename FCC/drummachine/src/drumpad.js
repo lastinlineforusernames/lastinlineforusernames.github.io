@@ -1,5 +1,5 @@
 import React from 'react';
-import {audioFiles} from './drummachine';
+// import {audioFiles} from './drummachine';
 
 class Drumpad extends React.Component {
     constructor(props) {
