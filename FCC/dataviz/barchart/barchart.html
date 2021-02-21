@@ -39,8 +39,8 @@
                             .domain(d3.extent(dates))
                             .range([xPadding, w - xPadding]);
             const yScale = d3. scaleLinear()
-                            .domain(d3.extent(gdp))
-                            .range([h - yPadding, yPadding]);
+                            .domain([0, d3.max(gdp)])
+                            .range([h - yPadding, yPadding])
             const xAxis = d3.axisBottom(xScale);
             const yAxis = d3.axisLeft(yScale);
 
@@ -58,7 +58,7 @@
                 .attr("x", (d, i) => xScale(parseTime(d[0])))
                 .attr("y", (d, i) => yScale(d[1]))
                 .attr("width", w / dataset.length)
-                .attr("height", (d, i) => d[1])
+                .attr("height", (d, i) => h - yScale(d[1]) - yPadding)
                 .attr("fill", "#f0f")
                 .attr("class", "bar")
                 .on("mouseover", function(d) {
@@ -76,10 +76,6 @@
                     d3.select("#tooltip")
                         .classed("hidden", true)
                 })
-                // .append('title')
-                // .attr("id", "tooltip")
-                // .attr("data-date", (d, i) => data.data[i][0])
-                // .text((d, i) => d[0] + ", " + d[1])
 
             svg.append('g')
                 .attr("transform", "translate(0," + (h - yPadding) + ")")

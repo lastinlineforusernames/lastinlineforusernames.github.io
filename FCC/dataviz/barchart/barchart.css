@@ -6,10 +6,6 @@ body {
     text-align: center;
     color: #110;
 }
-/* 
-#title {
-    background-color: #aaff;
-} */
 
 #chart {
     margin: 0 auto;
@@ -31,11 +27,12 @@ g {
 }
 
 #tooltip {
-    position: absolute;
-    width: auto;
+    margin: 0 auto;
+    width: 200px;
     height: auto;
     padding: auto;
-    background-color: #fff;
+    background-color: #110;
+    color: #fff;
     border-radius: 10px;
     box-shadow: 4px 4px 10px #110;
     pointer-events: none;
