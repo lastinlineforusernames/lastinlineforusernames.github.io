@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDP Bar Chart</title>
+    <link rel="stylesheet" href="scatterplot.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <h1 id="title">Fastest Cycling Times on Alpe d'Huez</h1>
+    <div id="chart">
+    </div>
+    <div id="legend">
+        <div id="no-dope-legend"></div>
+        <div id="no-dope-text">Cyclist with no doping allegations</div>
+        <div id="dope-legend"></div>
+        <div id="dope-text">Cyclist with doping allegations</div>
+    </div>
+    <div id="tooltip" class="hidden">
+        <p>
+            Name: <span id="name"></span><br>
+            Year: <span id="year"></span><span> - </span>
+            Time: <span id="time"></span><span> - </span>
+            Place: <span id="place"></span><br>
+            Doping: <span id="doping"></span>
+        </p>
+    </div>
+    <script>
+        d3.json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json').then(function(data) {
+            const w = 1000;
+            const h = 500;
+            const xPadding = 50;
+            const yPadding = 30;
+            
+            var times = [];
+            var parseTime = d3.timeParse("%M:%S");
+            for (let obj of data) {
+                times.push(parseTime(obj.Time))
+            }
+                
+            var years = [];
+            for (let obj of data) {
+                years.push(obj.Year)
+            }
+                       
+            const xScale = d3.scaleLinear()
+                            .domain([d3.min(years), d3.max(years)])
+                            .range([xPadding, w - xPadding]);
+            const yScale = d3. scaleTime()
+                            .domain(d3.extent(times))
+                            .range([h - yPadding, yPadding])
+            const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
+            const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
+
+            const svg = d3.select('#chart')
+                .append('svg')
+                .attr("width", w)
+                .attr("height", h)
+            
+            svg.selectAll('circle')
+                .data(data)
+                .enter()
+                .append('circle')
+                .attr("data-xvalue", (d, i) => d.Year)
+                .attr("data-yvalue", (d, i) => parseTime(d.Time))
+                .attr("data-name", (d, i) => d.Name)
+                .attr("data-place", (d, i) => d.Place)
+                .attr("data-doping", (d, i) => d.Doping)
+                .attr("data-url", (d, i) => d.URL)
+                .attr("cx", (d, i) => xScale(d.Year))
+                .attr("cy", (d, i) => yScale(parseTime(d.Time)))
+                .attr("r", 9)
+                .attr("fill", (d, i) => {
+                    if (d.Doping === "") {
+                        return "#395"
+                    } else {
+                        return "#935"
+                    }
+                })
+                .attr("class", "dot")
+                .on("mouseover", function(d) {
+                    d3.select("#tooltip")
+                        .attr("data-year", d.target.dataset.xvalue)
+                        .select("#year")
+                        .text(d.target.dataset.xvalue);
+                    d3.select("#tooltip")
+                        .select("#time")
+                        .text(d.target.dataset.yvalue.toString().slice(19, 24));
+                    d3.select("#name")
+                        .text(d.target.dataset.name);
+                    d3.select("#place")
+                        .text(d.target.dataset.place)
+                    d3.select("#doping")
+                        .text(d.target.dataset.doping)
+                    d3.select("#tooltip")
+                        .classed("hidden", false)
+                })
+                .on("mouseout", (d, i) => {
+                    d3.select("#tooltip")
+                        .classed("hidden", true)
+                })
+
+            svg.append('g')
+                .attr("transform", "translate(0," + (h - yPadding) + ")")
+                .attr("id", "x-axis")
+                .call(xAxis)
+
+            svg.append('g')
+                .attr("transform", "translate(" + xPadding + ", 0)")
+                .attr("id", "y-axis")
+                .call(yAxis)
+        });
+
+    </script>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+</body>
+</html>

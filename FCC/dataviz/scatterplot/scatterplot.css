@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap');
+
+body {
+    background-color: #657;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+    color: #110;
+}
+
+#title {
+    background-color: #fff5;
+}
+
+#chart {
+    margin: 0 auto;
+    background-color: #fff5;
+    width: min-content;
+    border-radius: 10px;
+}
+
+
+g {
+    color: #110;
+}
+
+#tooltip {
+    margin: 0  auto;
+    width: 450px;
+    height: auto;
+    padding: 5px;
+    background-color: #fff5;
+    color: #110;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px #110;
+    pointer-events: none;
+}
+
+#tooltip.hidden {
+    display: none;
+}
+
+#legend {
+    padding: 10px;
+    display: grid;
+    grid-template-areas: 
+        "no-dope-dot no-dope-text dope-dot dope-text";
+    margin: 0 auto;
+    width: 450px;
+    align-items: center;
+}
+
+#no-dope-legend {
+    width: 18px;
+    height: 18px;
+    background-color: #395;
+    border-radius: 50%;
+    grid-area: no-dope-dot;
+}
+
+#dope-legend {
+    width: 18px;
+    height: 18px;
+    background-color: #935;
+    border-radius: 50%;
+    grid-area: dope-dot;
+}
+
+#no-dope-text {
+    grid-area: no-dope-text;
+}
+
+#dope-text {
+    grid-area: dope-text;
+}
