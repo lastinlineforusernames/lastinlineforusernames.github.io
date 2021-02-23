@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap');
+
+body {
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+    color: #222;
+    background-color: #eec;
+}
+
+#chart, #title, #description, #tooltip, #legend {
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 5px auto;
+}
+
+#tooltip, #legend {
+    width: 450px;
+    padding: 2px;
+}
+
+#tooltip.hidden {
+    display: none;
+}

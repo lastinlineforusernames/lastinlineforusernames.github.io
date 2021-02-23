@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heatmap of Heat</title>
+    <link rel="stylesheet" href="heatmap.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div id="title"><h1>Heatmap of Heat</h1></div>
+    <div id="description">This is literally a map of heat</div>
+    <div id="chart"></div>
+    <div id="legend">Legend</div>
+    <div id="tooltip">
+        Year: <span id="year"></span>
+        Month: <span id="month"></span>
+        Temperature: <span id="temp"></span>
+    </div>
+    <script>
+        d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json").then(function(data) {
+            const w = 1400;
+            const h = 400;
+            const xPadding = 75;
+            const yPadding = 30;
+            const baseTemp = data.baseTemperature;
+            const dataset = data.monthlyVariance;
+            dataset.forEach(element => {
+                element.month -= 1;
+            });
+
+            var months = [];
+            var years = [];
+            var temps = [];
+            for (let obj of dataset) {
+                months.push(obj.month);
+                years.push(obj.year);
+                temps.push(baseTemp + obj.variance);
+            }
+            const colors = ["#3BB0F5", "#4EFCA4", "#9CE653", "#FCDE4E", "#F2994B"];
+            const monthNames = [
+                "January", "February", "March", "April", "May", "June", "July", 
+                "August", "September", "October", "November", "December"
+            ];
+            const uniqueYears = [...new Set(years)];
+
+            const legendData = [];
+            let diff = (d3.max(temps) - d3.min(temps)) / (colors.length - 1)
+            let prevValue = d3.min(temps)
+            for (let i = 0; i < colors.length; i++) {
+                legendData.push(prevValue);
+                prevValue += diff;
+            }
+
+            const xScale = d3.scaleLinear()
+                            .domain([d3.min(years), d3.max(years)])
+                            .range([xPadding, w - xPadding]);
+            const yScale = d3.scaleLinear()
+                            .domain([d3.min(months), d3.max(months)])
+                            .range([yPadding, h - yPadding * 2])
+            const xAxis = d3.axisBottom(xScale).tickFormat(d3.format('d'));
+            const yAxis = d3.axisLeft(yScale).tickFormat((d, i) => monthNames[i]);
+            const colorScale = d3.scaleOrdinal()
+                                .domain(legendData)
+                                .range(colors)
+
+            const svg = d3.select('#chart')
+                        .append('svg')
+                        .attr('width', w)
+                        .attr('height', h)
+
+            svg.selectAll('rect')
+                .data(dataset)
+                .enter()
+                .append('rect')
+                .attr('class', 'cell')
+                .attr('data-month', (d, i) => d.month)
+                .attr('data-year', (d, i) => d.year)
+                .attr('data-temp', (d, i) => baseTemp + d.variance)
+                .attr('x', (d, i) => xScale(d.year))
+                .attr('y', (d, i) => yScale(d.month))
+                .attr('width', (w - xPadding) / uniqueYears.length)
+                .attr('height', ((h - yPadding) / monthNames.length))
+                .attr('fill', function(d) {
+                    return colorScale(baseTemp + d.variance)
+                })
+                .on("mouseover", function(d) {
+                    d3.select("#tooltip")
+                        .attr("data-year", d.target.dataset.year)
+                        .select("#year")
+                        .text(d.target.dataset.year);
+                    d3.select("#tooltip")
+                        .select("#month")
+                        .text(monthNames[d.target.dataset.month]);
+                    d3.select("#tooltip")
+                        .select("#temp")
+                        .text(d3.format(".3f")(d.target.dataset.temp) + '°C');
+                    d3.select("#tooltip")
+                        .classed("hidden", false)
+                })
+                .on("mouseout", (d, i) => {
+                    d3.select("#tooltip")
+                        .classed("hidden", true)
+                })
+
+            svg.append('g')
+                .attr('transform', 'translate(0, ' + (h - yPadding) + ")")
+                .attr('id', 'x-axis')
+                .style('stroke-width', '2px')
+                .call(xAxis)
+            
+            svg.append('line')
+                .attr('y1', yPadding)
+                .attr('y2', h - yPadding)
+                .attr('x1', xPadding + .5)
+                .attr('x2', xPadding + .5)
+                .style('stroke', '#000')
+                .style('stroke-width', '2px')
+
+            svg.append('g')
+                .attr('transform', 'translate(' + xPadding + ', 0)')
+                .attr('id', 'y-axis')
+                .call(yAxis)
+
+            const legendWidth = 400;
+            const legendHeight = 50;
+            const legendScale = d3.scaleOrdinal()
+                                    .domain(legendData)
+                                    .range([40, 120, 200, 280, 360])
+            const legendAxis = d3.axisBottom(legendScale).tickFormat(d3.format('.3f'))
+
+            const legend = d3.select('#legend')
+                            .append('svg')
+                            .attr('width', legendWidth)
+                            .attr('height', legendHeight)
+
+            legend.selectAll('rect')
+                .data(legendData)
+                .enter()
+                .append('rect')
+                .attr('x', (d, i) => i * (legendWidth / colors.length))
+                .attr('y', 0)
+                .attr('width', legendWidth / colors.length)
+                .attr('height', legendHeight / 2)
+                .attr('fill', function(d) {
+                    return colorScale(d)
+                })
+
+            legend.append('g')
+                .attr('transform', 'translate(0, ' + legendHeight / 2 + ')')
+                .call(legendAxis)
+
+            legend.append('line')
+                .attr('y1', legendHeight / 2)
+                .attr('y2', legendHeight / 2)
+                .attr('x1', 0)
+                .attr('x2', legendWidth)
+                .style('stroke', '#000')
+                .style('stroke-width', '2px')
+            })
+    </script>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+</body>
+</html>
