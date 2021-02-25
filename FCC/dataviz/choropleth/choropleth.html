@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3 Choropleth Map</title>
+    <link rel="stylesheet" href="choropleth.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+</head>
+<body>
+    <div id="title"><h1>US Educational Attainment</h1></div>
+    <div id="description"><h3>Percentage of adults with a bachelor's degree or higher</h3></div>
+    <div id="chart"></div>
+    <div id="tooltip"><span id="area"></span>: <span id="education"></span>%</div>
+    <script>
+        var w = 960,
+            h = 620;
+
+        var path = d3.geoPath();
+
+        var svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+        const mapData = "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json";
+        const educationData = "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json"
+
+        d3.queue()
+            .defer(d3.json, mapData)
+            .defer(d3.json, educationData)
+            .await(drawMap);
+
+        function drawMap(error, topology, data) {
+            if (error) {
+                throw error;
+            }
+        
+            console.log("topojson", topology)
+            var geojsonStates = topojson.feature(topology, topology.objects.states);
+            var geojsonCounties = topojson.feature(topology, topology.objects.counties);
+            console.log("States", geojsonStates)
+            console.log("Counties", geojsonCounties)
+            console.log(data)
+
+            const minData = d3.min(data.map(a => a.bachelorsOrHigher));
+            const maxData = d3.max(data.map(a => a.bachelorsOrHigher));
+
+            const colors = d3.schemeCategory20b;
+            let diff = (maxData - minData) / (colors.length - 1)
+            const legendData = d3.range(minData, maxData, diff);
+            
+            var colorScale = d3.scaleThreshold()
+                .domain(legendData)
+                .range(colors)
+            
+            svg.selectAll("path")
+                .data(geojsonCounties.features)
+                .enter()
+                .append("path")
+                .attr("class", "county")
+                .attr("d", path)
+                .attr("data-fips", (d, i) => d.id)
+                .attr("data-education", (d, i) => {
+                    for (j = 0; j < data.length; j++) {
+                        if (data[j].fips === d.id) {
+                            return data[j].bachelorsOrHigher;
+                        }
+                    }
+                })
+                .attr("data-area", (d, i) => {
+                    for (j = 0; j < data.length; j++) {
+                        if (data[j].fips === d.id) {
+                            return data[j].area_name + ", " + data[j].state;
+                        }
+                    }
+                })
+                .attr("fill", function(d, i) {
+                    return colorScale(this.getAttribute("data-education"))
+                })
+                .on("mouseover", function(d) {
+                    d3.select("#tooltip")
+                        .attr("data-education", this.dataset.education)
+                        .select("#education")
+                        .text(this.dataset.education);
+                    d3.selectAll("#tooltip")
+                        .select("#area")
+                        .text(this.dataset.area);
+                    d3.select("#tooltip")
+                        .classed("hidden", false)
+                })
+                .on("mouseout", (d, i) => {
+                    d3.select("#tooltip")
+                        .classed("hidden", true)
+                })
+
+            svg.append("g")
+                .selectAll("path")
+                .data(geojsonStates.features)
+                .enter()
+                .append("path")
+                .attr("class", "state")
+                .attr("d", path)
+                .attr("fill", "transparent")
+                .attr("stroke", "#222")
+            
+            const legend = svg.append("g")
+                            .attr("id", "legend")
+
+            legend.selectAll("rect")
+                .data(legendData)
+                .enter()
+                .append("rect")
+                .attr("width", 20)
+                .attr("height", 20)
+                .attr("x", (d, i) => w - (i * 20))
+                .attr("y", 0)
+                .attr("fill", function(d) {
+                    return colorScale(d)
+                })
+            
+        };
+    </script>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+</body>
+</html>
