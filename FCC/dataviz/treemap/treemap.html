@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treemap</title>
+    <link rel="stylesheet" href="treemap.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div id="title"><h1>Video Game Sales</h1></div>
+    <div id="description"><h3>Video game sales by system</h3></div>
+    <div id="chart"></div>
+    <div id="legend"></div>
+    <script>
+        const w = 1000;
+        const h = 700;
+        const padding = 1;
+        const outerPadding = 1;
+        const color = d3.scaleOrdinal(d3.schemeSet3);
+        const format = d3.format(".1f");
+        const legendWidth = 1000;
+        const legendHeight = 60;
+        const legendRectSize = 20;
+        const legendTextSize = 60;
+        const legendPadding = 10;
+        const legendColumnWidth = legendRectSize + legendTextSize + legendPadding * 2;
+        const tooltip = d3.select("body")
+            .append("div")
+            .attr("id", "tooltip")
+
+        d3.json('https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/video-game-sales-data.json').then(function(data) {
+            var treemapLayout = data => d3.treemap()
+                .size([w, h])
+                .paddingInner(padding)
+                .paddingOuter(outerPadding)
+                (d3.hierarchy(data)
+                    .sum(data => data.value)
+                    .sort((a, b) => b.value - a.value));
+
+            const root = treemapLayout(data);
+
+            const svg = d3.select("#chart")
+                .append("svg")
+                .attr("viewBox", [0, 0, w, h])
+                .style("font", "11px sans-serif")
+
+            const leaf = svg.selectAll("g")
+                .data(root.leaves())
+                .join("g")
+                .attr("transform", d => `translate(${d.x0},${d.y0})`);
+
+            leaf.append("rect")
+                .attr("class", "tile")
+                .attr("fill", d => { while (d.depth > 1) d = d.parent; return color(d.data.name); })
+                .attr("fill-opacity", 0.6)
+                .attr("width", d => d.x1 - d.x0)
+                .attr("height", d => d.y1 - d.y0)
+                .attr("data-name", d => d.data.name)
+                .attr("data-category", d => d.data.category)
+                .attr("data-value", d => d.data.value)
+                .on("mousemove", function(event, d) {
+                    d3.select("#tooltip")
+                        .style("left", `${(event.pageX - 25)}px`)
+                        .style("top", `${(event.pageY - - 15)}px`)
+                        .attr("data-value", this.dataset.value)
+                        .html(
+                            `Name: ${this.dataset.name}<br>
+                            Category: ${this.dataset.category}<br>
+                            Value: ${this.dataset.value}`
+                        )
+                        .classed("hidden", false)
+                })
+                .on("mouseout", (d, i) => {
+                    d3.select("#tooltip")
+                        .classed("hidden", true)
+                })
+
+            leaf.append("text")
+                .attr("clip-path", d => d.clipUid)
+                .selectAll("tspan")
+                .data(d => d.data.name.split(/(?=[A-Z][^A-Z])/g))
+                .join("tspan")
+                .attr("x", 3)
+                .attr("y", (d, i) => 12 + i * 11)
+                .style("pointer-events", "none")
+                .text(d => d)
+
+            const legendData = [...new Set(root.leaves().map(a => a.data.category))];
+
+            const legend = d3.select("#legend")
+                .append("svg")
+                .attr("width", legendWidth)
+                .attr("height", legendHeight)
+                .style("padding", legendPadding)
+
+            legend.selectAll("g")
+                .data(legendData)
+                .enter()
+                .append("g")
+                .append("rect")
+                .attr("class", "legend-item")
+                .attr("fill", d => color(d))
+                .attr("fill-opacity", 0.6)
+                .attr("width", legendRectSize)
+                .attr("height", legendRectSize)
+                .attr("x", (d, i) => i * legendColumnWidth + legendColumnWidth < legendWidth ? 
+                    i * legendColumnWidth :     
+                    i * legendColumnWidth - legendWidth + legendColumnWidth)
+                .attr("y", (d, i) => i * legendColumnWidth + legendColumnWidth < legendWidth ? 0 : 30)
+
+            legend.selectAll("g")
+                .append("text")
+                .attr("x", (d, i) => i * legendColumnWidth + legendColumnWidth < legendWidth ? 
+                i * legendColumnWidth + legendRectSize + legendPadding : 
+                i * legendColumnWidth - legendWidth + legendRectSize + legendPadding + legendColumnWidth)
+                .attr("y", (d, i) => i * legendColumnWidth + legendColumnWidth < legendWidth ? 
+                legendRectSize - legendPadding / 2 : 
+                legendRectSize * 2 + legendPadding / 2)
+                .attr("fill", "#bce")
+                .text(d => d)
+        })
+    </script>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+</body>
+</html>
